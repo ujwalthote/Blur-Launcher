@@ -1,11 +1,13 @@
 package com.coderfolk.blurlauncher.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.coderfolk.blurlauncher.R;
@@ -15,7 +17,7 @@ import com.coderfolk.blurlauncher.model.AppDetail;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppListActivity extends AppCompatActivity implements AppListAdapter.Callback {
+public class AppListActivity extends Activity implements AppListAdapter.Callback {
     private ArrayList<AppDetail> appList;
     private PackageManager packageManager;
     RecyclerView recyclerView;
@@ -31,6 +33,7 @@ public class AppListActivity extends AppCompatActivity implements AppListAdapter
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
 
         List<ResolveInfo> availableActivities = packageManager.queryIntentActivities(intent, 0);
+        Log.d("List 2",String.valueOf(availableActivities.size()));
         for (ResolveInfo ri : availableActivities) {
             AppDetail app = new AppDetail();
             app.setLabel(ri.loadLabel(packageManager));
@@ -38,6 +41,8 @@ public class AppListActivity extends AppCompatActivity implements AppListAdapter
             app.setIcon(ri.activityInfo.loadIcon(packageManager));
             appList.add(app);
         }
+
+        Log.d("List",String.valueOf(appList.size()));
 
         AppListAdapter adapter = new AppListAdapter(appList);
         adapter.setCallback(this);
