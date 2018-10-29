@@ -7,6 +7,9 @@ public class AppDetail {
     CharSequence name;
     Drawable icon;
 
+    public AppDetail() {
+    }
+
     public CharSequence getLabel() {
         return label;
     }

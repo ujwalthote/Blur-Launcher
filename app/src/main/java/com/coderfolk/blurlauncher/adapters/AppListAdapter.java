@@ -14,14 +14,20 @@ import com.coderfolk.blurlauncher.model.AppDetail;
 import java.util.ArrayList;
 
 public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.AppListViewHolder> {
+
     public interface Callback {
-        public void onClickApp();
+        void onAppClick(View view, int position);
     }
 
     private ArrayList<AppDetail> appDetails;
+    private Callback callback;
 
     public AppListAdapter(ArrayList<AppDetail> appDetails) {
         this.appDetails = appDetails;
+    }
+
+    public void setCallback(Callback callback) {
+        this.callback = callback;
     }
 
 
@@ -43,13 +49,14 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.AppListV
 
     }
 
+
     @Override
     public int getItemCount() {
         return appDetails.size();
     }
 
 
-    public static class AppListViewHolder extends RecyclerView.ViewHolder {
+    class AppListViewHolder extends RecyclerView.ViewHolder {
         TextView appLabel;
         TextView appName;
         ImageView appIcon;
@@ -59,6 +66,13 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.AppListV
             this.appLabel = (TextView) itemView.findViewById(R.id.item_app_label);
             this.appName = (TextView) itemView.findViewById(R.id.item_app_name);
             this.appIcon = (ImageView) itemView.findViewById(R.id.item_app_icon);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    callback.onAppClick(view, getAdapterPosition());
+                }
+            });
         }
+
     }
 }
